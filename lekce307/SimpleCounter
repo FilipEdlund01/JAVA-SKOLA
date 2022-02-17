@@ -1,0 +1,57 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package lekce307;
+
+/**
+ *
+ * @author 2019-e-edlund
+ */
+public class SimpleCounter {
+
+    public static void main(String[] args) throws InterruptedException {
+        SimpleCounter sc = new SimpleCounter();
+        Thread add = new Thread(() -> sc.addNumber(1_000_000_000));
+        Thread sub = new Thread(() -> sc.subNumber(1_000_000_000));
+        
+
+        add.start();
+        sub.start();
+        add.join();
+        sub.join();
+        System.out.println(sc.value);
+        
+    }
+
+    private int value = 0;
+
+    /*public int inc() {
+
+        return value++;
+
+    }*/
+
+    private void addNumber(int n) {
+        for (int i = 0; i < n; i++) {
+            inc();
+
+        }
+    }
+    private void subNumber(int n) {
+        for (int i = 0; i < n; i++) {
+            dec();
+
+        }
+    }
+    
+    public synchronized int inc(){
+        return value++;
+    }
+     public synchronized int dec(){
+        return value--;
+    }
+    
+
+}
